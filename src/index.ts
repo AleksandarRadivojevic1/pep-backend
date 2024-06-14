@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { configDotenv } from 'dotenv';
 import { AppDataSource } from './db';
+import { UserService } from './services/user.service';
 
 const app = express()
 app.use(express.json())
@@ -22,10 +23,8 @@ AppDataSource.initialize().then(() => {
 
 
 
-app.get('/', (req, res) => {
-    res.json({
-        message: "Hello world from ExpressJs and Typescript!"
-    })
+app.get('/', async (req, res) => {
+    res.json(await UserService.getAllUsers())
 })
 
 app.get('*', (req, res) => {

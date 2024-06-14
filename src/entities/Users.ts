@@ -32,6 +32,11 @@ export class Users {
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt: Date;
+  @Column("datetime", {
+    name: "deleted_at",
+    default: () => "null",
+  })
+  deletedAt: Date;
 
   @Column("bool", { name: "active", default: () => "'true'" })
   active: boolean;
