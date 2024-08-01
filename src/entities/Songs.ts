@@ -11,8 +11,8 @@ import { Albums } from "./Albums";
 @Index("fk_songs_album_idx", ["albumId"], {})
 @Entity("songs", { schema: "praktikum_esistemi_db" })
 export class Songs {
-  @PrimaryGeneratedColumn({ type: "int", name: "songs_id", unsigned: true })
-  songsId: number;
+  @PrimaryGeneratedColumn({ type: "int", name: "song_id", unsigned: true })
+  songId: number;
 
   @Column("varchar", { name: "name", length: 255 })
   name: string;
