@@ -5,6 +5,9 @@ import { configDotenv } from 'dotenv';
 import { AppDataSource } from './db';
 import { UserService } from './services/user.service';
 import { AlbumService } from './services/album.service';
+import { SongService } from './services/songs.service';
+import { ArtistService } from './services/arist.service';
+import { UserRoleService } from './services/user.role.service';
 
 
 
@@ -26,7 +29,7 @@ AppDataSource.initialize()
   .catch((e) => console.log(e));
 
 app.get('/', async (req, res) => {
-  res.json(await AlbumService.getAllAlbums());
+  res.json(await UserRoleService.getAllUserRoles());
 });
 
 app.get('*', (req, res) => {

@@ -1,27 +1,26 @@
-import { IsNull, Not } from "typeorm";
 import { AppDataSource } from "../db";
 import { Songs } from "../entities/Songs";
+import { checkIfDefined } from "../utils";
 
+const repo = AppDataSource.getRepository(Songs);
 
-
-
-
-
-const repo = AppDataSource.getRepository(Songs)
-
-
-export class SongsService {
-    static async getAllSongs() {
+export class SongService {
+    static async getAllSongs(albumId?: number) {
         const data = await repo.find({
-            where: {
-                name: Not(IsNull())
-            }
-        })
-        
-        
-        return data;
-    } catch(e) {
+            select: {
+                songId: true,
+                name: true,
+                album: {
+                    albumId: true,
+                    albumName: true,
+                }
+            },
+            relations: {
+                album: true,
+            },
+            where: albumId ? { album: { albumId: albumId } } : {},
+        });
 
-        console.error('Error retrieving songs:', e);
+        return checkIfDefined(data);
     }
 }

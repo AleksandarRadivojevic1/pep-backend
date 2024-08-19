@@ -1,21 +1,28 @@
-import { IsNull, Not } from "typeorm";
 import { AppDataSource } from "../db";
 import { Artists } from "../entities/Artists";
+import { checkIfDefined } from "../utils";
 
-const repo = AppDataSource.getRepository(Artists)
+const repo = AppDataSource.getRepository(Artists);
 
 export class ArtistService {
-    static async getAllArtists() {
+    static async getAllArtists(artistName?: string) {
         const data = await repo.find({
-            where: {
-                artistName: Not(IsNull())
-            }
-        })
-        
-        
-        return data;
-    } catch(e) {
+            select: {
+                artistId: true,
+                artistName: true,
+                artistGenre: true,
+                artistBio: true,
+                albums: {
+                    albumId: true,
+                    albumName: true,
+                }
+            },
+            relations: {
+                albums: true,
+            },
+            where: artistName ? { artistName: artistName } : {},
+        });
 
-        console.error('Error retrieving artists:', e);
+        return checkIfDefined(data);
     }
 }
