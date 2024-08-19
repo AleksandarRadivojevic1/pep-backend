@@ -6,8 +6,13 @@ import { AppDataSource } from './db';
 import { UserService } from './services/user.service';
 import { AlbumService } from './services/album.service';
 import { SongService } from './services/songs.service';
-import { ArtistService } from './services/arist.service';
+import { ArtistService } from './services/artist.service';
 import { UserRoleService } from './services/user.role.service';
+import { UserRoleRoute } from './routes/user.role.route';
+import { SongRoute } from './routes/songs.route';
+import { AlbumRoute } from './routes/album.route';
+import { ReviewRoute } from './routes/review.route';
+import { ArtistRoute } from './routes/artist.route';
 
 
 
@@ -31,6 +36,13 @@ AppDataSource.initialize()
 app.get('/', async (req, res) => {
   res.json(await UserRoleService.getAllUserRoles());
 });
+
+
+app.use("/api/artists", ArtistRoute);
+app.use("/api/albums", AlbumRoute);
+app.use("/api/reviews", ReviewRoute);
+app.use("/api/songs", SongRoute);
+app.use("/api/user-roles", UserRoleRoute);
 
 app.get('*', (req, res) => {
   res.status(404).json({
