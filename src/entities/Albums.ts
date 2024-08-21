@@ -17,8 +17,15 @@ export class Albums {
   @PrimaryGeneratedColumn({ type: "int", name: "album_id", unsigned: true })
   albumId: number;
 
+  @Column("varchar", { name: "album_image", length: 255 })
+  albumImage: string;
+  
   @Column("varchar", { name: "album_name", length: 255 })
   albumName: string;
+  
+  @Column("varchar", { name: "release_date", default: () => "null",})
+  releaseDate: Date;
+  
 
   @Column("int", { name: "artist_id", unsigned: true })
   artistId: number;
