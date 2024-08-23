@@ -22,8 +22,11 @@ export class Albums {
   
   @Column("varchar", { name: "album_name", length: 255 })
   albumName: string;
+
+  @Column("varchar", { name: "album_genre", length: 255 })
+  albumGenre: string;
   
-  @Column("varchar", { name: "release_date", default: () => "null",})
+  @Column("date", { name: "release_date", default: () => "null",})
   releaseDate: Date;
   
 

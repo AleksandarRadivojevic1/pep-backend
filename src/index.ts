@@ -13,6 +13,7 @@ import { SongRoute } from './routes/songs.route';
 import { AlbumRoute } from './routes/album.route';
 import { ReviewRoute } from './routes/review.route';
 import { ArtistRoute } from './routes/artist.route';
+import { Timestamp } from 'typeorm';
 
 
 
@@ -33,9 +34,9 @@ AppDataSource.initialize()
   })
   .catch((e) => console.log(e));
 
-app.get('/', async (req, res) => {
-  res.json(await UserRoleService.getAllUserRoles());
-});
+// app.get('/', async (req, res) => {
+//   res.json(await UserRoleService.getAllUserRoles());
+// });
 
 
 app.use("/api/artists", ArtistRoute);
@@ -46,8 +47,28 @@ app.use("/api/user-roles", UserRoleRoute);
 
 app.get('*', (req, res) => {
   res.status(404).json({
-    message: "Not found!"
+    message: "NOT_FOUND!",
+    Timestamp: new Date()
+  }); 
+});
+
+app.post('*', (req, res) => {
+  res.status(501).json({
+    message: "NOT_IMPLEMENTED!",
+    Timestamp: new Date()
   });
 });
 
+app.put('*', (req, res) => {
+  res.status(501).json({
+    message: "NOT_IMPLEMENTED!",
+    Timestamp: new Date()
+  });
+});
 
+app.delete('*', (req, res) => {
+  res.status(501).json({
+    message: "NOT_IMPLEMENTED!",
+    Timestamp: new Date()
+  });
+});

@@ -14,6 +14,7 @@ export class AlbumService {
                 albumId: true,  
                 albumImage: true,   
                 albumName: true,
+                albumGenre: true,
                 releaseDate: true,
                 artist: {
                     artistId: true,
@@ -40,6 +41,7 @@ export class AlbumService {
                 albumId: true,  
                 albumImage: true,   
                 albumName: true,
+                albumGenre: true,
                 releaseDate: true,
             },
             where: { 
@@ -50,20 +52,22 @@ export class AlbumService {
         return checkIfDefined(data);
     }
 
-    static async createAlbum(model: NameModel & { albumImage: string, releaseDate: Date, artistId: number }) {
+    static async createAlbum(model: NameModel & { albumImage: string, releaseDate: Date,albumGenre:string, artistId: number }) {
         return await repo.save({
           albumName: model.name,
           albumImage: model.albumImage,
-          releaseDate: model.releaseDate,
+          albumGenre: model.albumGenre,
+          releaseDate: model.releaseDate || null,
           artistId: model.artistId,
           createdAt: new Date(),
         });
       }
 
-    static async updateAlbum(id: number, model: NameModel & { albumImage: string, releaseDate: Date, artistId: number}) {
+    static async updateAlbum(id: number, model: NameModel & { albumImage: string, albumGenre: string, releaseDate: Date, artistId: number}) {
         const data = await this.getAlbumById(id);
         data.albumName = model.name;
         data.albumImage = model.albumImage,
+        data.albumGenre = model.albumGenre,
         data.releaseDate = model.releaseDate,
         data.artistId = model.artistId;
 
