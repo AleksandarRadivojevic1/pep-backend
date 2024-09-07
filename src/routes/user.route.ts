@@ -5,6 +5,12 @@ import { handleRequest } from "../utils";
 
 export const UserRoute = Router();
 
-UserRoute.get('/', async (req, res) => {
-    await handleRequest(res, UserService.getAllUsers());
+UserRoute.post('/login', async (req, res) => {
+    await handleRequest(res, UserService.login(req.body));
+});
+
+UserRoute.post('/refresh', async (req, res) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    await handleRequest(res, UserService.refreshToken(token));
 });

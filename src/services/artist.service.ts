@@ -57,7 +57,7 @@ export class ArtistService {
 
     static async updateArtist(id: number, model:ArtistModel) {
         const data = await this.getArtistById(id);
-        data.artist_image = model.artistImage
+        data.artistImage = model.artistImage
         data.artistName = model.artistName,
         data.artistGenre = model.artistGenre,
         data.artistBio = model.artistBio

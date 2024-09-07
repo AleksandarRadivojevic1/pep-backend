@@ -15,6 +15,7 @@ import { ReviewRoute } from './routes/review.route';
 import { ArtistRoute } from './routes/artist.route';
 import { Timestamp } from 'typeorm';
 import { UserRoute } from './routes/user.route';
+import { authenticateToken } from './utils';
 
 
 
@@ -39,13 +40,12 @@ AppDataSource.initialize()
 //   res.json(await UserRoleService.getAllUserRoles());
 // });
 
-
-
+app.use(authenticateToken)
+app.use("/api/users", UserRoute);
 app.use("/api/artists", ArtistRoute);
 app.use("/api/albums", AlbumRoute);
 app.use("/api/reviews", ReviewRoute);
 app.use("/api/songs", SongRoute);
- app.use("/api/users", UserRoute);
 app.use("/api/user-roles", UserRoleRoute);
 
 app.get('*', (req, res) => {
