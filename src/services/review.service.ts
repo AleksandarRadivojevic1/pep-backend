@@ -27,8 +27,7 @@ export class ReviewService {
                 user: true,
             },
             where: {
-                // ...(albumId && { album: { albumId: albumId } }),
-                // ...(userId && { user: { userId: userId } }),
+
             },
         });
 

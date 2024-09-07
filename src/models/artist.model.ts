@@ -1,7 +1,7 @@
-import { NameModel } from "./name.model";
 
-
-export interface ArtistModel extends NameModel{
-    artistGenre : string
-    artistBio : string
+export interface ArtistModel {
+    artistImage:string;
+    artistName: string;
+    artistGenre : string;
+    artistBio : string;
 }

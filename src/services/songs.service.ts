@@ -1,6 +1,6 @@
 import { AppDataSource } from "../db";
 import { Songs } from "../entities/Songs";
-import { NameModel } from "../models/name.model";
+import { SongModel } from "../models/song.model";
 import { checkIfDefined } from "../utils";
 
 const repo = AppDataSource.getRepository(Songs);
@@ -28,29 +28,33 @@ export class SongService {
 
     static async getSongById(id: number) {
         const data = await repo.findOne({
-            select:{
-                songId: true,  
-                name: true,   
-                albumId: true,
-            
+            select: {
+                songId: true,
+                name: true,
+                album:{
+                  albumId: true}
             },
-            where: { 
-                songId: id 
+            where: {
+                songId: id
             },
 
         });
         return checkIfDefined(data);
     }
 
-    static async createSong(model: NameModel){
-        return await repo.save({
-            name : model.name
-        })
-    }
 
-    static async updateSong(id: number, model: NameModel ) {
+    static async createSong(model: SongModel & { albumId: number }) {
+        return await repo.save({
+          songId:model.songId,
+          name:model.name,
+          albumId:model.albumId
+        })
+      }
+
+    static async updateSong(id: number, model: SongModel & { albumId: number }) {
         const data = await this.getSongById(id);
-        data.name = model.name;
+        data.name = model.name
+        data.albumId = model.albumId
         return await repo.save(data);
     }
 

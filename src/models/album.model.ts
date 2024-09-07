@@ -1,9 +1,10 @@
-import { NameModel } from './name.model';
 
-export interface AlbumModel extends NameModel {
+
+export interface AlbumModel {
+    albumName:string;
     albumId: number;
     albumImage: string;
     albumGenre: string;
-    releaseDate: Date;
     artistId: number;
+    artistName:string;
 }

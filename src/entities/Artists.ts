@@ -13,6 +13,9 @@ export class Artists {
   @PrimaryGeneratedColumn({ type: "int", name: "artist_id", unsigned: true })
   artistId: number;
 
+  @Column("varchar", { name: "artist_image", length: 255 })
+  artistImage: string;
+
   @Column("varchar", { name: "artist_name", unique: true, length: 255 })
   artistName: string;
 

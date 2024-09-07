@@ -1,8 +1,8 @@
-import { IsNull, Not } from "typeorm";
+
 import { AppDataSource } from "../db";
 import { Albums } from "../entities/Albums";
 import { checkIfDefined } from "../utils";
-import { NameModel } from "../models/name.model";
+import { AlbumModel } from "../models/album.model";
 
 
 const repo = AppDataSource.getRepository(Albums)
@@ -11,11 +11,10 @@ export class AlbumService {
     static async getAllAlbums() {
         const data = await repo.find({
             select: {
-                albumId: true,  
-                albumImage: true,   
+                albumId: true,
+                albumImage: true,
                 albumName: true,
                 albumGenre: true,
-                releaseDate: true,
                 artist: {
                     artistId: true,
                     artistName: true
@@ -37,39 +36,44 @@ export class AlbumService {
 
     static async getAlbumById(id: number) {
         const data = await repo.findOne({
-            select:{
-                albumId: true,  
-                albumImage: true,   
+            select: {
+                albumId: true,
+                albumImage: true,
                 albumName: true,
                 albumGenre: true,
-                releaseDate: true,
+                artist: {
+                    artistId: true,
+                    artistName: true
+                },
             },
-            where: { 
-                albumId: id 
+            relations: {
+                artist: true,
+            },
+            where: {
+                albumId: id
             },
 
         });
         return checkIfDefined(data);
     }
 
-    static async createAlbum(model: NameModel & { albumImage: string, releaseDate: Date,albumGenre:string, artistId: number }) {
+    static async createAlbum(model:AlbumModel) {
         return await repo.save({
-          albumName: model.name,
-          albumImage: model.albumImage,
-          albumGenre: model.albumGenre,
-          releaseDate: model.releaseDate || null,
-          artistId: model.artistId,
-          createdAt: new Date(),
+            albumName: model.albumName,
+            albumImage: model.albumImage,
+            albumGenre: model.albumGenre,
+            artistId: model.artistId,
         });
-      }
+    }
 
-    static async updateAlbum(id: number, model: NameModel & { albumImage: string, albumGenre: string, releaseDate: Date, artistId: number}) {
+    static async updateAlbum(id: number, model: AlbumModel) {
         const data = await this.getAlbumById(id);
-        data.albumName = model.name;
+        data.albumName = model.albumName;
         data.albumImage = model.albumImage,
-        data.albumGenre = model.albumGenre,
-        data.releaseDate = model.releaseDate,
-        data.artistId = model.artistId;
+        data.albumGenre = model.albumGenre
+
+
+
 
         return await repo.save(data);
     }

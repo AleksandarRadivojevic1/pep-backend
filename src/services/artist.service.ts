@@ -1,6 +1,6 @@
 import { AppDataSource } from "../db";
 import { Artists } from "../entities/Artists";
-import { NameModel } from "../models/name.model";
+import { ArtistModel } from "../models/artist.model";
 import { checkIfDefined } from "../utils";
 
 const repo = AppDataSource.getRepository(Artists);
@@ -10,6 +10,7 @@ export class ArtistService {
         const data = await repo.find({
             select: {
                 artistId: true,
+                artistImage:true,
                 artistName: true,
                 artistGenre: true,
                 artistBio: true,
@@ -32,6 +33,7 @@ export class ArtistService {
         const data = await repo.findOne({
             select:{
                 artistId: true,
+                artistImage:true,
                 artistName: true,
                 artistGenre: true,
                 artistBio: true
@@ -44,15 +46,21 @@ export class ArtistService {
         return checkIfDefined(data);
     }
 
-    static async createArtist(model: NameModel) {
+    static async createArtist(model:ArtistModel) {
         return await repo.save({
-            artistName: model.name
+            artistImage:model.artistImage,
+            artistName: model.artistName,
+            artistGenre:model.artistGenre,
+            artistBio:model.artistBio
         });
     }
 
-    static async updateArtist(id: number, model: NameModel) {
+    static async updateArtist(id: number, model:ArtistModel) {
         const data = await this.getArtistById(id);
-        data.artistName = model.name;
+        data.artist_image = model.artistImage
+        data.artistName = model.artistName,
+        data.artistGenre = model.artistGenre,
+        data.artistBio = model.artistBio
         return await repo.save(data);
     }
 

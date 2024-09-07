@@ -25,10 +25,6 @@ export class Albums {
 
   @Column("varchar", { name: "album_genre", length: 255 })
   albumGenre: string;
-  
-  @Column("date", { name: "release_date", default: () => "null",})
-  releaseDate: Date;
-  
 
   @Column("int", { name: "artist_id", unsigned: true })
   artistId: number;
