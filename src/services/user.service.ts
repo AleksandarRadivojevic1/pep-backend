@@ -24,6 +24,7 @@ export class UserService {
         const user: Users = await this.getUserByUsername(model.username)
         if (await bcrypt.compare(model.password, user.password))
             return {
+                username:user.username,
                 access: jwt.sign({ name: model.username }, accessSecret, { expiresIn: accessExpire }),
                 refresh: jwt.sign({ name: model.username }, refreshSecret, { expiresIn: refreshExpire })
             };
@@ -35,6 +36,7 @@ export class UserService {
         try {
             const decoded: any = jwt.verify(refresh, refreshSecret as string)
             return {
+                username:decoded.name,
                 access: jwt.sign({ name: decoded.name }, accessSecret, { expiresIn: accessExpire }),
                 refresh: refresh
             }
