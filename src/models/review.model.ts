@@ -3,4 +3,6 @@ export interface ReviewModel{
     rating: number;
     reviewText: string;
     moderationStatus: string;
+    albumId: number;
+    userId: number; 
 }
